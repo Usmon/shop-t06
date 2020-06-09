@@ -26,6 +26,23 @@ class CarModel extends \yii\db\ActiveRecord
     }
 
     /**
+     * @var array $engines
+     */
+    protected static $engines = [
+        1 => 'Бензин',
+        2 => 'Дизель',
+        3 => 'Гибрид'
+    ]; 
+
+    /**
+     * @var array $engines
+     */
+    protected static $drives = [
+        1 => 'Полный',
+        2 => 'Передний',
+    ]; 
+
+    /**
      * {@inheritdoc}
      */
     public function rules()
@@ -60,5 +77,31 @@ class CarModel extends \yii\db\ActiveRecord
     public function getCarMark()
     {
         return $this->hasOne(CarMarks::className(), ['id' => 'id_car_mark']);
+    }
+
+    /**
+     * @param null|integer $key
+     * 
+     * @return string|array
+     */
+    public static function getEngines($key = null)
+    {
+        if ($key)
+            return self::$engines[$key];
+        
+        return self::$engines;
+    }
+
+    /**
+     * @param null|integer $key
+     * 
+     * @return string|array
+     */
+    public static function getDrives($key = null)
+    {
+        if ($key)
+            return self::$drives[$key];
+        
+        return self::$drives;
     }
 }

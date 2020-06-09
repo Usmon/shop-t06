@@ -2,8 +2,10 @@
 
 namespace app\controllers;
 
+use Yii;
 use app\models\car\CarMark;
-use app\models\car\carModel;
+use app\models\car\CarModel;
+use app\models\car\ModelFilterForm;
 use yii\data\ActiveDataProvider;
 
 /**
@@ -39,10 +41,19 @@ class CatalogController extends \yii\web\Controller
         $mark = CarMark::find()
                 ->where(['title' => $brand])
                 ->one();
+        $query = $mark->getCarModels();
         $title = $this->getTitle($mark->title);
 
+        $filter_model = new ModelFilterForm();
+        $filter_model->load(Yii::$app->request->get());
+        if ($filter_model) {
+            $query->where([
+                'engine' => $filter_model->engine,
+                'drive' => $filter_model->drive
+            ]);
+        } 
         $provider = new ActiveDataProvider([
-            'query' => $mark->getCarModels(),
+            'query' => $query,
             'pagination' => [
                 'pageSize' => 9,
             ],
@@ -53,7 +64,7 @@ class CatalogController extends \yii\web\Controller
             ],
         ]);
 
-        return $this->render('models', compact('provider', 'title'));
+        return $this->render('models', compact('provider', 'title', 'filter_model'));
     }
 
     /**
