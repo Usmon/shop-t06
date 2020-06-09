@@ -7,7 +7,7 @@ use app\models\car\CarModel;
 ?>
 
 <h3>Filter</h3>
-<?php $form = ActiveForm::begin(['id' => 'login-form', 'method' => 'GET']); ?>
+<?php $form = ActiveForm::begin(['id' => 'model-filter', 'method' => 'GET']); ?>
 
     <?= 
         $form->field($model, 'engine')->dropDownList(CarModel::getEngines());

@@ -1,8 +1,6 @@
 <?php
 
-use yii\widgets\Pjax;
 use yii\helpers\Html;
-use yii\widgets\ListView;
 /* @var $this yii\web\View */
 /* @var $brands array */
 /* @var $title string */
@@ -16,15 +14,8 @@ $this->params['breadcrumbs'][] = ['label' => $title];
         <?= $this->render('_filter', ['model' => $filter_model]) ?>
     </div>
     <div class="col-lg-9">
-        <div class="row">
-        <?php Pjax::begin(['id' => 'models-list']); ?>
-            <?php
-                echo ListView::widget([
-                    'dataProvider' => $provider,
-                    'itemView' => '_list',
-                ]);
-            ?>
-        <?php Pjax::end(); ?>
+        <div class="row" id="list-container">
+        <?= $this->render('_list-view', compact('provider')) ?>
         </div>
     </div>
 </div>

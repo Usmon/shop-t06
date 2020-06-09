@@ -41,17 +41,19 @@ class CatalogController extends \yii\web\Controller
         $mark = CarMark::find()
                 ->where(['title' => $brand])
                 ->one();
+
         $query = $mark->getCarModels();
         $title = $this->getTitle($mark->title);
 
         $filter_model = new ModelFilterForm();
-        $filter_model->load(Yii::$app->request->get());
-        if ($filter_model) {
+
+        if($filter_model->load(Yii::$app->request->get())) {
             $query->where([
                 'engine' => $filter_model->engine,
                 'drive' => $filter_model->drive
             ]);
         } 
+
         $provider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -63,6 +65,9 @@ class CatalogController extends \yii\web\Controller
                 ]
             ],
         ]);
+
+        if(Yii::$app->request->isAjax) 
+            return $this->renderPartial('_list-view', compact('provider'));
 
         return $this->render('models', compact('provider', 'title', 'filter_model'));
     }
