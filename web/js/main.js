@@ -22,7 +22,6 @@ var catalog = {
                 dataType: 'HTML',
                 success: function(data) {
                     route.add(this.url);
-                    console.log( $(self.container).html() );
                     $(self.container).html(data);
                 }
             });
